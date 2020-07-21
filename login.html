@@ -51,20 +51,6 @@
           <button class="btn btn-lg btn-primary btn-block" type="submit">
             登入
           </button>
-          <button
-            class="btn btn-outline-primary btn-block"
-            type="button"
-            @click="signout"
-          >
-            登出
-          </button>
-          <button
-            class="btn btn-outline-primary btn-block"
-            type="button"
-            @click="getData"
-          >
-            取得資料
-          </button>
           <p class="mt-5 mb-3 text-muted">
             &copy; 2020~∞ - 六角學院
           </p>
@@ -77,8 +63,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
-      // UUID
-      const uuid = '0a913983-0ee4-4ff5-b07f-d35971afff52'
       const apiPath = 'https://course-ec-api.hexschool.io/api/'
       new Vue({
         el: '#login',
@@ -102,36 +86,6 @@
                   expired * 1000
                 )}; path=/`
                 window.location = 'pets.html'
-              })
-              .catch(err => {
-                console.log(err)
-              })
-          },
-          signout() {
-            const api = `${apiPath}auth/logout`
-            const params = {
-              api_token: this.token
-            }
-            axios
-              .post(api, params)
-              .then(res => {
-                document.cookie = 'token=; expires=; path=/'
-              })
-              .catch(err => {
-                console.log(err)
-              })
-          },
-          getData() {
-            const api = `${apiPath}${uuid}/admin/ec/products`
-
-            axios.defaults.headers.common[
-              'Authorization'
-            ] = `Bearer ${this.token}`
-
-            axios
-              .get(api)
-              .then(res => {
-                console.log(res)
               })
               .catch(err => {
                 console.log(err)

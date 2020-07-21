@@ -13,7 +13,14 @@
   <body>
     <div id="pets" class="container mt-5">
       <div>
-        <div class="text-right">
+        <div class="text-right clearfix">
+          <button
+            class="btn btn-outline-primary float-left"
+            type="button"
+            @click="signout"
+          >
+            登出
+          </button>
           <button
             type="button"
             class="btn btn-primary"

@@ -72,7 +72,22 @@ new Vue({
           $('#delProductModal').modal('hide');
         }
       })
-    }
+    },
+    signout() {
+      const api = `${this.api.path}auth/logout`
+      const params = {
+        api_token: this.token
+      }
+      axios
+        .post(api, params)
+        .then(() => {
+          document.cookie = 'token=; expires=; path=/'
+          window.location = 'login.html'
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
   },
   created() {
     this.token = document.cookie.replace(

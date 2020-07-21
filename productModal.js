@@ -127,8 +127,6 @@ export default {
                     v-model="tempData.enabled"
                     class="form-check-input"
                     type="checkbox"
-                    :true-value="1"
-                    :false-value="0"
                   />
                   <label class="form-check-label" for="enabled"
                     >是否啟用</label
@@ -187,7 +185,7 @@ export default {
         case 'new':
           this.tempData.id = new Date().getTime();
           if (!this.tempData.enabled) {
-            this.tempData.enabled = 0;
+            this.tempData.enabled = false;
           }
           const newTempData = {...this.tempData, unit: '隻'};
           const newApi = `${path}${uuid}/admin/ec/product`;
