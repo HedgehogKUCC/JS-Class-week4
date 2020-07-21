@@ -1,34 +1,14 @@
 new Vue({
   el: '#pets',
   data: {
-    pets: [
-      {
-        id: 1594291248631,
-        unit: '隻',
-        category: '喵星人',
-        title: '愛睏喵',
-        origin_price: 100,
-        price: 50,
-        description: '米克斯',
-        content: '好想睡',
-        is_enabled: 1,
-        imageUrl: 'https://images.unsplash.com/photo-1519052537078-e6302a4968d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
-      },
-      {
-        id: 1594291965421,
-        unit: '隻',
-        category: '汪星人',
-        title: '活潑汪',
-        origin_price: 100,
-        price: 50,
-        description: '馬爾濟斯',
-        content: '好想你',
-        is_enabled: 0,
-        imageUrl: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
-      }
-    ],
+    pets: [],
     tempData: {},
     modalFeature: '',
+    api: {
+      uuid: '0a913983-0ee4-4ff5-b07f-d35971afff52',
+      path: 'https://course-ec-api.hexschool.io/api/',
+    },
+    token: '',
   },
   methods: {
     openModal(features, item) {
@@ -81,6 +61,24 @@ new Vue({
         })
       }
       $('#delProductModal').modal('hide');
+    },
+    getPets() {
+      const api = `${this.api.path}${this.api.uuid}/admin/ec/products`
+
+      axios.get(api).then(res => {
+        console.log(res);
+        this.pets = res.data.data
+      })
     }
   },
+  created() {
+    this.token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
+      '$1'
+    )
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+
+    this.getPets()
+  }
 })
