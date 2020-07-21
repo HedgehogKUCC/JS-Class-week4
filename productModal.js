@@ -183,10 +183,27 @@ export default {
   methods: {
     updatePets() {
       const { path, uuid } = this.api;
-      const api = `${path}${uuid}/admin/ec/product/${this.tempData.id}`;
-      axios.patch(api, this.tempData).then(res => {
-        this.$emit('update');
-      });
+      switch (this.modalFeature) {
+        case 'new':
+          this.tempData.id = new Date().getTime();
+          if (!this.tempData.is_enabled) {
+            this.tempData.is_enabled = 0;
+          }
+          const newTempData = {...this.tempData, unit: '隻'};
+          const newApi = `${path}${uuid}/admin/ec/product`;
+          axios.post(newApi, newTempData).then(() => {
+            this.$emit('update');
+          });
+          break
+        case 'edit':
+          const editApi = `${path}${uuid}/admin/ec/product/${this.tempData.id}`;
+          axios.patch(editApi, this.tempData).then(() => {
+            this.$emit('update');
+          });
+          break;
+        default:
+          break;
+      }
     },
   },
 }

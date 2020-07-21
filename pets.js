@@ -49,24 +49,6 @@ new Vue({
           break;
       }
     },
-    updatePets() {
-      if (this.tempData.id) {
-        this.pets.forEach((item, index) => {
-          if (item.id === this.tempData.id) {
-            this.pets[index] = this.tempData;
-          }
-        })
-      } else {
-        this.tempData.id = new Date().getTime();
-        if (!this.tempData.is_enabled) {
-          this.tempData.is_enabled = 0;
-        }
-        const newTempData = {...this.tempData, unit: '隻'};
-        this.pets.push(newTempData);
-      }
-      this.tempData = {};
-      $('#productModal').modal('hide');
-    },
     delPet() {
       if (this.tempData.id) {
         const id = this.tempData.id;
