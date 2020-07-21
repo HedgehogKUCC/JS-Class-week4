@@ -1,8 +1,10 @@
 import pagination from './pagination.js';
 import productModal from './productModal.js';
+import delProductModal from './delProductModal.js';
 
 Vue.component('Pagination', pagination);
 Vue.component('product-modal', productModal);
+Vue.component('del-product-modal', delProductModal);
 
 new Vue({
   el: '#pets',
@@ -31,37 +33,28 @@ new Vue({
           $('#productModal').modal('show');
           break;
         case 'edit':
-          const api = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`
+          const editApi = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`
           this.loadingBtn = item.id;
           this.modalFeature = features;
-          axios.get(api).then(res => {
+          axios.get(editApi).then(res => {
             this.tempData = res.data.data;
             $('#productModal').modal('show');
             this.loadingBtn = '';
           })
           break;
         case 'del':
+          const delApi = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`
+          this.loadingBtn = item.id;
           this.modalFeature = features;
-          this.tempData = JSON.parse(JSON.stringify(item));
-          $('#delProductModal').modal('show');
+          axios.get(delApi).then(res => {
+            this.tempData = res.data.data;
+            $('#delProductModal').modal('show');
+            this.loadingBtn = '';
+          })
           break;
         default:
           break;
       }
-    },
-    delPet() {
-      if (this.tempData.id) {
-        const id = this.tempData.id;
-        this.pets.forEach((item, index) => {
-          if (item.id === id) {
-            this.pets.splice(index, 1);
-            this.tempData = {
-              imageUrl: [],
-            };
-          }
-        })
-      }
-      $('#delProductModal').modal('hide');
     },
     getPets(num = 1) {
       const api = `${this.api.path}${this.api.uuid}/admin/ec/products?page=${num}`
@@ -74,7 +67,9 @@ new Vue({
           this.tempData = {
             imageUrl: [],
           };
+
           $('#productModal').modal('hide');
+          $('#delProductModal').modal('hide');
         }
       })
     }

@@ -123,14 +123,14 @@ export default {
               <div class="form-group">
                 <div class="form-check">
                   <input
-                    id="is_enabled"
-                    v-model="tempData.is_enabled"
+                    id="enabled"
+                    v-model="tempData.enabled"
                     class="form-check-input"
                     type="checkbox"
                     :true-value="1"
                     :false-value="0"
                   />
-                  <label class="form-check-label" for="is_enabled"
+                  <label class="form-check-label" for="enabled"
                     >是否啟用</label
                   >
                 </div>
@@ -186,8 +186,8 @@ export default {
       switch (this.modalFeature) {
         case 'new':
           this.tempData.id = new Date().getTime();
-          if (!this.tempData.is_enabled) {
-            this.tempData.is_enabled = 0;
+          if (!this.tempData.enabled) {
+            this.tempData.enabled = 0;
           }
           const newTempData = {...this.tempData, unit: '隻'};
           const newApi = `${path}${uuid}/admin/ec/product`;
