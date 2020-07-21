@@ -64,6 +64,7 @@
             </tr>
           </tbody>
         </table>
+        <Pagination :pagination="pagination" @update="getPets" />
         <!-- productModal -->
         <div
           id="productModal"
@@ -283,6 +284,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="pets.js"></script>
+    <script src="pets.js" type="module"></script>
   </body>
 </html>

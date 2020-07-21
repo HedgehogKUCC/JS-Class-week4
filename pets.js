@@ -1,7 +1,12 @@
+import pagination from './pagination.js';
+
+Vue.component('Pagination', pagination);
+
 new Vue({
   el: '#pets',
   data: {
     pets: [],
+    pagination: {},
     tempData: {},
     modalFeature: '',
     api: {
@@ -62,12 +67,12 @@ new Vue({
       }
       $('#delProductModal').modal('hide');
     },
-    getPets() {
-      const api = `${this.api.path}${this.api.uuid}/admin/ec/products`
+    getPets(num = 1) {
+      const api = `${this.api.path}${this.api.uuid}/admin/ec/products?page=${num}`
 
       axios.get(api).then(res => {
-        console.log(res);
         this.pets = res.data.data
+        this.pagination = res.data.meta.pagination
       })
     }
   },
