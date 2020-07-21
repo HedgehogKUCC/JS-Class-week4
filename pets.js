@@ -1,32 +1,44 @@
 import pagination from './pagination.js';
+import productModal from './productModal.js';
 
 Vue.component('Pagination', pagination);
+Vue.component('product-modal', productModal);
 
 new Vue({
   el: '#pets',
   data: {
     pets: [],
     pagination: {},
-    tempData: {},
+    tempData: {
+      imageUrl: [],
+    },
     modalFeature: '',
     api: {
       uuid: '0a913983-0ee4-4ff5-b07f-d35971afff52',
       path: 'https://course-ec-api.hexschool.io/api/',
     },
     token: '',
+    loadingBtn: '',
   },
   methods: {
     openModal(features, item) {
       switch (features) {
         case 'new':
           this.modalFeature = features;
-          this.tempData = {};
+          this.tempData = {
+            imageUrl: [],
+          };
           $('#productModal').modal('show');
           break;
         case 'edit':
+          const api = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`
+          this.loadingBtn = item.id;
           this.modalFeature = features;
-          this.tempData = JSON.parse(JSON.stringify(item));
-          $('#productModal').modal('show');
+          axios.get(api).then(res => {
+            this.tempData = res.data.data;
+            $('#productModal').modal('show');
+            this.loadingBtn = '';
+          })
           break;
         case 'del':
           this.modalFeature = features;
@@ -61,7 +73,9 @@ new Vue({
         this.pets.forEach((item, index) => {
           if (item.id === id) {
             this.pets.splice(index, 1);
-            this.tempData = {};
+            this.tempData = {
+              imageUrl: [],
+            };
           }
         })
       }
@@ -73,6 +87,13 @@ new Vue({
       axios.get(api).then(res => {
         this.pets = res.data.data
         this.pagination = res.data.meta.pagination
+
+        if (this.tempData.id) {
+          this.tempData = {
+            imageUrl: [],
+          };
+          $('#productModal').modal('hide');
+        }
       })
     }
   },
